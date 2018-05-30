@@ -5,63 +5,69 @@ import java.io.*;
 
 public class FILTER extends DirectoryProcessor {
 
-    public boolean greater_then(File file, double Bytes){
-        return ((double) (file.length()/1024) > Bytes);
-    }
-
-    public boolean smaller_then(File file, double Bytes){
-        return  ((double) (file.length()/1024) < Bytes);
-    }
-
-    public boolean between(File file, double upperBytes, double lowerBytes){
-        return ((double) (file.length()/1024) >= lowerBytes && (double) (file.length()/1024) <= upperBytes);
-    }
-
-    private boolean file(File file, String value){
-        return file.getName().equals(value);
-    }
-
-    private boolean contains(File file, String value){
-        return file.getName().contains(value);
-    }
-
-    private boolean prefix(File file, String value){
-        String[] fileName = file.getName().split(".");
-        for (int i = 0; i < (fileName.length-2); i++) {
-            if (fileName[i].contains(value)){
-                return true;
-            }
+    protected class GreaterThan {
+        private boolean greater_than(File file, double Bytes) {
+            return ((double) (file.length() / 1024) > Bytes);
         }
-        return false;
     }
 
-    private boolean suffix(File file, String value){
-        String[] fileName = file.getName().split(".");
-        return fileName[fileName.length-1].contains(value);
-    }
-
-    private boolean writable(File file){
-        return file.canWrite();
-    }
-
-    private boolean executable(File file){
-        return file.canExecute();
-    }
-
-    private boolean hidden(File file){
-        return file.isHidden();
-    }
-
-    private boolean all(File fatherFile){
-        boolean areAllGood = true;
-        String[] fileList = fatherFile.list();
-        for (String file:fileList
-             ) {
-            while (file.check()) {
-                continue;
-                }
-            areAllGood = false;
+    protected class SmallerThan {
+        private boolean smaller_than(File file, double Bytes) {
+            return ((double) (file.length() / 1024) < Bytes);
         }
-        return areAllGood;
+    }
+
+    protected class Between {
+        private boolean between(File file, double upperBytes, double lowerBytes) {
+            return ((double) (file.length() / 1024) >= lowerBytes && (double) (file.length() / 1024) <= upperBytes);
+        }
+    }
+
+    protected class FileName {
+        private boolean file(File file, String value) {
+            return file.getName().equals(value);
+        }
+    }
+
+    protected class Contains {
+        private boolean contains(File file, String value) {
+            return file.getName().contains(value);
+        }
+    }
+
+    protected class Prefix {
+        private boolean prefix(File file, String value) {
+            return file.getName().startsWith(value);
+        }
+    }
+
+    protected class Suffix {
+        private boolean suffix(File file, String value) {
+            return file.getName().endsWith(value);
+        }
+    }
+
+    protected class Writable {
+        private boolean writable(File file) {
+            return file.canWrite();
+        }
+    }
+
+    protected class Executable {
+        private boolean executable(File file) {
+            return file.canExecute();
+        }
+    }
+
+    protected class Hidden {
+        private boolean hidden(File file) {
+            return file.isHidden();
+        }
+    }
+
+    protected class All {
+        private boolean all(File fatherFile) {
+            return true;
+        }
     }
 }
