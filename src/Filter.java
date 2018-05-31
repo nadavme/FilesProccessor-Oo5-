@@ -3,7 +3,11 @@ import java.io.*;
 
 public class Filter extends DirectoryProcessor {
 
-    public enum FilterCase {
+    public Filter() {
+        Filter filter = new Filter();
+    }
+
+    public enum FilterQ {
         // size filter group 1-3
         BETWEEN("between", new Between()),
         GREATER_THAN("greater_than", new GreaterThan()),
@@ -13,122 +17,119 @@ public class Filter extends DirectoryProcessor {
         NAME("file", new FileName()),
         CONTAINS("contains", new Contains()),
         PREFIX("prefix", new Prefix()),
-        SUFFIX("suffix", new Contains()),
+        SUFFIX("suffix", new Suffix()),
 
         // permission filter group 8-10
         WRITABLE("writable", new Writable()),
         HIDDEN("hidden", new Hidden()),
         EXECUTABLE("executable", new Executable());
 
-        FilterCase(String orderName, Filter filterObject) {
-            this.filterName = orderName;
-            this.filterObject = filterObject;
+        FilterQ(String orderName, Filter filterObject) {
+            this.fName = orderName;
+            this.fObject = filterObject;
         }
 
-        final String filterName;
+        final String fName;
 
-        final Filter filterObject;
+        final Filter fObject;
 
-        public String getFilterName() {
-            return filterName;
+        public String getfName() {
+            return fName;
         }
 
-        public Filter getFilterObject() {
-            return filterObject;
+        public Filter getfObject() {
+            return fObject;
         }
+
     }
 
-    public FilterCase filterFactory(String filter) {
-        if (filter.equals(FilterCase.BETWEEN.getFilterName())) {
-            return FilterCase.BETWEEN;
-        } else if (filter.equals(FilterCase.GREATER_THAN.getFilterName())) {
-            return FilterCase.GREATER_THAN;
-        } else if (filter.equals(FilterCase.SMALLER_THAN.getFilterName())) {
-            return FilterCase.SMALLER_THAN;
-        } else if (filter.equals(FilterCase.NAME.getFilterName())) {
-            return FilterCase.NAME;
-        } else if (filter.equals(FilterCase.CONTAINS.getFilterName())) {
-            return FilterCase.CONTAINS;
-        } else if (filter.equals(FilterCase.PREFIX.getFilterName())) {
-            return FilterCase.PREFIX;
-        } else if (filter.equals(FilterCase.SUFFIX.getFilterName())) {
-            return FilterCase.SUFFIX;
-        } else if (filter.equals(FilterCase.WRITABLE.getFilterName())) {
-            return FilterCase.WRITABLE;
-        } else if (filter.equals(FilterCase.HIDDEN.getFilterName())) {
-            return FilterCase.HIDDEN;
-        } else if (filter.equals(FilterCase.EXECUTABLE.getFilterName())) {
-            return FilterCase.EXECUTABLE;
+    public FilterQ filterFactory(String filter) {
+        if (filter.equals(FilterQ.BETWEEN.getfName())) {
+            return FilterQ.BETWEEN;
+        } else if (filter.equals(FilterQ.GREATER_THAN.getfName())) {
+            return FilterQ.GREATER_THAN;
+        } else if (filter.equals(FilterQ.SMALLER_THAN.getfName())) {
+            return FilterQ.SMALLER_THAN;
+        } else if (filter.equals(FilterQ.NAME.getfName())) {
+            return FilterQ.NAME;
+        } else if (filter.equals(FilterQ.CONTAINS.getfName())) {
+            return FilterQ.CONTAINS;
+        } else if (filter.equals(FilterQ.PREFIX.getfName())) {
+            return FilterQ.PREFIX;
+        } else if (filter.equals(FilterQ.SUFFIX.getfName())) {
+            return FilterQ.SUFFIX;
+        } else if (filter.equals(FilterQ.WRITABLE.getfName())) {
+            return FilterQ.WRITABLE;
+        } else if (filter.equals(FilterQ.HIDDEN.getfName())) {
+            return FilterQ.HIDDEN;
+        } else if (filter.equals(FilterQ.EXECUTABLE.getfName())) {
+            return FilterQ.EXECUTABLE;
         } else {
             return null;
         }
     }
 
-    public Filter() {
-        Filter filter = new Filter();
-    }
-
-    protected class GreaterThan {
+    public static class GreaterThan extends Filter {
         private boolean greater_than(File file, double Bytes) {
             return ((double) (file.length() / 1024) > Bytes);
         }
     }
 
-    protected class SmallerThan {
+    protected static class SmallerThan extends Filter {
         private boolean smaller_than(File file, double Bytes) {
             return ((double) (file.length() / 1024) < Bytes);
         }
     }
 
-    protected class Between {
+    protected static class Between extends Filter {
         private boolean between(File file, double upperBytes, double lowerBytes) {
             return ((double) (file.length() / 1024) >= lowerBytes && (double) (file.length() / 1024) <= upperBytes);
         }
     }
 
-    protected class FileName {
+    protected static class FileName extends Filter {
         private boolean file(File file, String value) {
             return file.getName().equals(value);
         }
     }
 
-    protected class Contains {
+    protected static class Contains extends Filter {
         private boolean contains(File file, String value) {
             return file.getName().contains(value);
         }
     }
 
-    protected class Prefix {
+    protected static class Prefix extends Filter {
         private boolean prefix(File file, String value) {
             return file.getName().startsWith(value);
         }
     }
 
-    protected class Suffix {
+    protected static class Suffix extends Filter {
         private boolean suffix(File file, String value) {
             return file.getName().endsWith(value);
         }
     }
 
-    protected class Writable {
+    protected static class Writable extends Filter {
         private boolean writable(File file) {
             return file.canWrite();
         }
     }
 
-    protected class Executable {
+    protected static class Executable extends Filter {
         private boolean executable(File file) {
             return file.canExecute();
         }
     }
 
-    protected class Hidden {
+    protected static class Hidden extends Filter {
         private boolean hidden(File file) {
             return file.isHidden();
         }
     }
 
-    protected class All {
+    protected static class All extends Filter {
         private boolean all(File fatherFile) {
             return true;
         }

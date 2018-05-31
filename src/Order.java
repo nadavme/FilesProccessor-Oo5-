@@ -6,8 +6,6 @@ import java.io.*;
 
 public class Order extends DirectoryProcessor {
 
-    //    private Type type = new Type();
-//    private static Order order = new Order();
     private static final String REVERSE = "REVERSE";
     private static final String REGULAR = "";
     private static final String NO_TYPE = "";
@@ -17,7 +15,7 @@ public class Order extends DirectoryProcessor {
         Order order = new Order();
     }
 
-    public enum OrderCase {
+    public enum OrderQ {
         // Order enums.
         ABS("abs", new Abs()),
         TYPE("type", new Type()),
@@ -25,9 +23,9 @@ public class Order extends DirectoryProcessor {
         DEFAULT_ORDER("default", new Abs());
 
         private final String orderName;
-        private final Abs orderObject;
+        private final Order orderObject;
 
-        OrderCase(String orderName, Abs orderObject) {
+        OrderQ(String orderName, Order orderObject) {
             this.orderName = orderName;
             this.orderObject = orderObject;
         }
@@ -36,37 +34,45 @@ public class Order extends DirectoryProcessor {
             return orderName;
         }
 
-        public Abs getOrderObject() {
+        public Order getOrderObject() {
             return orderObject;
         }
     }
 
-    static OrderCase orderFactory(String Order) {
-        if (Order.equals(OrderCase.ABS.getOrderName())) {
-            return OrderCase.ABS;
-        } else if (Order.equals(OrderCase.TYPE.getOrderName())) {
-            return OrderCase.TYPE;
-        } else if (Order.equals(OrderCase.SIZE.getOrderName())) {
-            return OrderCase.SIZE;
+    public OrderQ orderFactory(String Order) {
+        if (Order.equals(OrderQ.ABS.getOrderName())) {
+            return OrderQ.ABS;
+        } else if (Order.equals(OrderQ.TYPE.getOrderName())) {
+            return OrderQ.TYPE;
+        } else if (Order.equals(OrderQ.SIZE.getOrderName())) {
+            return OrderQ.SIZE;
         } else {
-            return OrderCase.DEFAULT_ORDER;
+            return OrderQ.DEFAULT_ORDER;
         }
     }
 
-    private void CheckValidity(String reversed) {
+    private static void CheckValidity(String reversed) {
         if (!reversed.equals(REVERSE) && !reversed.equals(REGULAR)) {
             throw new UnsupportedOperationException();
         }
     }
 
-    private ArrayList<File> isReversed(ArrayList<File> files, String reversed) {
+    private static String fileSuffix(File file) {
+        if (!file.getName().contains(SEPARATOR)) {
+            return NO_TYPE;
+        }
+        int file1Separator = file.getName().lastIndexOf(SEPARATOR);
+        return file.getName().substring(file1Separator);
+    }
+
+    private static ArrayList<File> isReversed(ArrayList<File> files, String reversed) {
         if (reversed.equals(REVERSE)) {
             Collections.reverse(files);
         }
         return files;
     }
 
-    protected class Abs {
+    protected static class Abs extends Order {
 
         private ArrayList<File> AbsOrder(ArrayList<File> files, String reversed) {
             CheckValidity(reversed);
@@ -75,7 +81,7 @@ public class Order extends DirectoryProcessor {
         }
     }
 
-    protected class Size {
+    protected static class Size extends Order {
 
         private ArrayList<File> SizeOrder(ArrayList<File> files, String reversed) {
             CheckValidity(reversed);
@@ -90,7 +96,7 @@ public class Order extends DirectoryProcessor {
         }
     }
 
-    protected class Type {
+    protected static class Type extends Order {
 
         private ArrayList<File> TypeOrder(ArrayList<File> files, String reversed) {
             CheckValidity(reversed);
@@ -105,24 +111,4 @@ public class Order extends DirectoryProcessor {
             return isReversed(files, reversed);
         }
     }
-
-    private String fileSuffix(File file) {
-        if (!file.getName().contains(SEPARATOR)) {
-            return NO_TYPE;
-        }
-        int file1Separator = file.getName().lastIndexOf(SEPARATOR);
-        return file.getName().substring(file1Separator);
-    }
-
-//    public static void main(String[] args) {
-//        File file2 = new File("data2.text");
-//        File file1 = new File("da.z");
-//
-//        ArrayList<File> files = new ArrayList<File>(2);
-//        files.add(file2);
-//        files.add(file1);
-//        System.out.println(order.type.TypeOrder(files, ""));
-//
-//    }
-
 }
