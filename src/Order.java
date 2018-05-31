@@ -6,7 +6,7 @@ import java.text.*;
 import java.lang.*;
 import java.io.*;
 
-public class ORDER extends DirectoryProcessor {
+public class Order extends DirectoryProcessor {
 
     private static final String REVERSE = "REVERSE";
     private static final String REGULAR = "";
