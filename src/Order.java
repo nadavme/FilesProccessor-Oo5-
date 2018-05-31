@@ -4,6 +4,9 @@ import java.util.Comparator;
 import java.lang.*;
 import java.io.*;
 
+/**
+ *
+ */
 public class Order extends DirectoryProcessor {
 
     private static final String REVERSE = "REVERSE";
@@ -15,6 +18,9 @@ public class Order extends DirectoryProcessor {
         Order order = new Order();
     }
 
+    /**
+     *
+     */
     public enum OrderQ {
         // Order enums.
         ABS("abs", new Abs()),
@@ -30,15 +36,28 @@ public class Order extends DirectoryProcessor {
             this.orderObject = orderObject;
         }
 
+        /**
+         *
+         * @return
+         */
         public String getOrderName() {
             return orderName;
         }
 
+        /**
+         *
+         * @return
+         */
         public Order getOrderObject() {
             return orderObject;
         }
     }
 
+    /**
+     *
+     * @param Order
+     * @return
+     */
     public OrderQ orderFactory(String Order) {
         if (Order.equals(OrderQ.ABS.getOrderName())) {
             return OrderQ.ABS;
@@ -51,12 +70,21 @@ public class Order extends DirectoryProcessor {
         }
     }
 
+    /**
+     *
+     * @param reversed
+     */
     private static void CheckValidity(String reversed) {
         if (!reversed.equals(REVERSE) && !reversed.equals(REGULAR)) {
             throw new UnsupportedOperationException();
         }
     }
 
+    /**
+     *
+     * @param file
+     * @return
+     */
     private static String fileSuffix(File file) {
         if (!file.getName().contains(SEPARATOR)) {
             return NO_TYPE;
@@ -65,6 +93,12 @@ public class Order extends DirectoryProcessor {
         return file.getName().substring(file1Separator);
     }
 
+    /**
+     *
+     * @param files
+     * @param reversed
+     * @return
+     */
     private static ArrayList<File> isReversed(ArrayList<File> files, String reversed) {
         if (reversed.equals(REVERSE)) {
             Collections.reverse(files);
@@ -72,6 +106,9 @@ public class Order extends DirectoryProcessor {
         return files;
     }
 
+    /**
+     *
+     */
     protected static class Abs extends Order {
 
         private ArrayList<File> AbsOrder(ArrayList<File> files, String reversed) {
@@ -81,6 +118,9 @@ public class Order extends DirectoryProcessor {
         }
     }
 
+    /**
+     *
+     */
     protected static class Size extends Order {
 
         private ArrayList<File> SizeOrder(ArrayList<File> files, String reversed) {
@@ -96,6 +136,9 @@ public class Order extends DirectoryProcessor {
         }
     }
 
+    /**
+     *
+     */
     protected static class Type extends Order {
 
         private ArrayList<File> TypeOrder(ArrayList<File> files, String reversed) {

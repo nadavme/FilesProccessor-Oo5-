@@ -69,6 +69,11 @@ public class DirectoryProcessor {
         }
     }
 
+    /**
+     *
+     * @param directoryPath
+     * @return
+     */
     public ArrayList<File> directoryFileList(String directoryPath) {
         ArrayList<File> files = new ArrayList<File>();
         File fileDirectory = new File(directoryPath);
@@ -89,6 +94,10 @@ public class DirectoryProcessor {
     }
 
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args){
         DirectoryProcessor mainProccesor = new DirectoryProcessor();
         inputValidity(args);

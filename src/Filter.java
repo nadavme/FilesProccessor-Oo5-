@@ -1,12 +1,21 @@
 import java.lang.*;
 import java.io.*;
 
+/**
+ *
+ */
 public class Filter extends DirectoryProcessor {
 
+    /**
+     *
+     */
     public Filter() {
         Filter filter = new Filter();
     }
 
+    /**
+     *
+     */
     public enum FilterQ {
         // size filter group 1-3
         BETWEEN("between", new Between()),
@@ -43,6 +52,11 @@ public class Filter extends DirectoryProcessor {
 
     }
 
+    /**
+     *
+     * @param filter
+     * @return
+     */
     public FilterQ filterFactory(String filter) {
         if (filter.equals(FilterQ.BETWEEN.getfName())) {
             return FilterQ.BETWEEN;
@@ -69,66 +83,99 @@ public class Filter extends DirectoryProcessor {
         }
     }
 
+    /**
+     *
+     */
     public static class GreaterThan extends Filter {
         private boolean greater_than(File file, double Bytes) {
             return ((double) (file.length() / 1024) > Bytes);
         }
     }
 
+    /**
+     *
+     */
     protected static class SmallerThan extends Filter {
         private boolean smaller_than(File file, double Bytes) {
             return ((double) (file.length() / 1024) < Bytes);
         }
     }
 
+    /**
+     *
+     */
     protected static class Between extends Filter {
         private boolean between(File file, double upperBytes, double lowerBytes) {
             return ((double) (file.length() / 1024) >= lowerBytes && (double) (file.length() / 1024) <= upperBytes);
         }
     }
 
+    /**
+     *
+     */
     protected static class FileName extends Filter {
         private boolean file(File file, String value) {
             return file.getName().equals(value);
         }
     }
 
+    /**
+     *
+     */
     protected static class Contains extends Filter {
         private boolean contains(File file, String value) {
             return file.getName().contains(value);
         }
     }
 
+    /**
+     *
+     */
     protected static class Prefix extends Filter {
         private boolean prefix(File file, String value) {
             return file.getName().startsWith(value);
         }
     }
 
+    /**
+     *
+     */
     protected static class Suffix extends Filter {
         private boolean suffix(File file, String value) {
             return file.getName().endsWith(value);
         }
     }
 
+    /**
+     *
+     */
     protected static class Writable extends Filter {
         private boolean writable(File file) {
             return file.canWrite();
         }
     }
 
+    /**
+     *
+     */
     protected static class Executable extends Filter {
         private boolean executable(File file) {
             return file.canExecute();
         }
     }
 
+    /**
+     *
+     */
     protected static class Hidden extends Filter {
         private boolean hidden(File file) {
             return file.isHidden();
         }
     }
 
+    /**
+     * 
+     */
     protected static class All extends Filter {
         private boolean all(File fatherFile) {
             return true;
