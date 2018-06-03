@@ -35,9 +35,14 @@ public class Filter extends DirectoryProcessor {
         private final Filter fObject;
 
         // the default constructor for our enum, with the string and the Filter object.
-        FilterQ(String orderName, Filter filterObject) {
-            this.fName = orderName;
-            this.fObject = filterObject;
+        FilterQ(String filterName, Filter filterObject) {
+            if (filterName == null || filterObject == null) {
+                this.fName = "temp";
+                this.fObject = null;
+            } else {
+                this.fName = filterName;
+                this.fObject = filterObject;
+            }
         }
 
         // the getter func for the string representing the Filter name.
@@ -59,7 +64,7 @@ public class Filter extends DirectoryProcessor {
      * @return the FilterQ object, that holds the name of the filter and the filter object,
      * and which is going to be the enum.
      */
-    public FilterQ filterBuilder(String filter) {
+    public static FilterQ filterBuilder(String filter) {
         if (filter.equals(FilterQ.BETWEEN.getfName())) {
             return FilterQ.BETWEEN;
         } else if (filter.equals(FilterQ.GREATER_THAN.getfName())) {

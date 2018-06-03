@@ -63,7 +63,7 @@ public class Order extends DirectoryProcessor {
      * @return the OrderQ object, that holds the name of the order and the order object,
      * and which is going to be the enum.
      */
-    public OrderQ orderBuilder(String order) {
+    public static OrderQ orderBuilder(String order) {
         if (order.equals(OrderQ.ABS.getOName())) {
             return OrderQ.ABS;
         } else if (order.equals(OrderQ.TYPE.getOName())) {

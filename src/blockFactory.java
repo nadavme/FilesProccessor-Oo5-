@@ -1,8 +1,7 @@
+import jdk.nashorn.internal.ir.Block;
+
 public class blockFactory extends DirectoryProcessor {
 
     public blockFactory() {
-
-    }
-
-    public boolean isNotFilter
+        Block block = new String[4];
 }
