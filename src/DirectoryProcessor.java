@@ -69,6 +69,11 @@ public class DirectoryProcessor {
         }
     }
 
+    /**
+     *
+     * @param directoryPath
+     * @return
+     */
     public ArrayList<File> directoryFileList(String directoryPath) {
         ArrayList<File> files = new ArrayList<File>();
         File fileDirectory = new File(directoryPath);
@@ -88,9 +93,25 @@ public class DirectoryProcessor {
         return files;
     }
 
+    /**
+     * 
+     * @param commands
+     * @param sectionCommands
+     * @param commandsPointer
+     * @return
+     */
+    private static int splitToSections(ArrayList<String> commands, String[] sectionCommands, int commandsPointer) {
 
+
+    }
+
+    /**
+     *
+     * @param args
+     */
+    // TODO: 5/31/18 Find a solution to the args issue, it doesnt fit with the ArrayList.
     public static void main(String[] args){
         DirectoryProcessor mainProccesor = new DirectoryProcessor();
-        inputValidity(args);
+        inputValidity(ArrayList<String>args);
     }
 }
