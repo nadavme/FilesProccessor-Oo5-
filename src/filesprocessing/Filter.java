@@ -1,9 +1,9 @@
-// this are the java util functions we are going to use
+package filesprocessing;// this are the java util functions we are going to use
 import java.lang.*;
 import java.io.*;
 
 /**
- * the father class for all the filters we will want to use, extends the DirectoryProcessor class
+ * the father class for all the filters we will want to use, extends the filesprocessing.DirectoryProcessor class
  */
 public class Filter extends DirectoryProcessor {
 
@@ -31,10 +31,10 @@ public class Filter extends DirectoryProcessor {
         EXECUTABLE("executable", new Executable());
 
         // this are the two parameters we give the enum.
-        private final String fName;
-        private final Filter fObject;
+        protected final String fName;
+        protected final Filter fObject;
 
-        // the default constructor for our enum, with the string and the Filter object.
+        // the default constructor for our enum, with the string and the filesprocessing.Filter object.
         FilterQ(String filterName, Filter filterObject) {
             if (filterName == null || filterObject == null) {
                 this.fName = "temp";
@@ -45,12 +45,12 @@ public class Filter extends DirectoryProcessor {
             }
         }
 
-        // the getter func for the string representing the Filter name.
+        // the getter func for the string representing the filesprocessing.Filter name.
         public String getfName() {
             return fName;
         }
 
-        // the getter func for the object representing the Filter we want.
+        // the getter func for the object representing the filesprocessing.Filter we want.
         public Filter getfObject() {
             return fObject;
         }
@@ -94,7 +94,7 @@ public class Filter extends DirectoryProcessor {
      * this will be our GreaterThan class that basically holds the greater_than func.
      */
     public static class GreaterThan extends Filter {
-        private boolean greater_than(File file, double Bytes) {
+        protected boolean greater_than(File file, double Bytes) {
             return ((double) (file.length() / 1024) > Bytes);
         }
     }
@@ -103,7 +103,7 @@ public class Filter extends DirectoryProcessor {
      * this will be our SmallerThan class that basically holds the smaller_than func.
      */
     protected static class SmallerThan extends Filter {
-        private boolean smaller_than(File file, double Bytes) {
+        protected boolean smaller_than(File file, double Bytes) {
             return ((double) (file.length() / 1024) < Bytes);
         }
     }
@@ -112,7 +112,7 @@ public class Filter extends DirectoryProcessor {
      * this will be our Between class that basically holds the between func.
      */
     protected static class Between extends Filter {
-        private boolean between(File file, double upperBytes, double lowerBytes) {
+        protected boolean between(File file, double upperBytes, double lowerBytes) {
             return ((double) (file.length() / 1024) >= lowerBytes && (double) (file.length() / 1024) <= upperBytes);
         }
     }
@@ -121,7 +121,7 @@ public class Filter extends DirectoryProcessor {
      * this will be our FileName class that basically holds the file func.
      */
     protected static class FileName extends Filter {
-        private boolean file(File file, String value) {
+        protected boolean file(File file, String value) {
             return file.getName().equals(value);
         }
     }
@@ -130,7 +130,7 @@ public class Filter extends DirectoryProcessor {
      * this will be our Contains class that basically holds the contains func.
      */
     protected static class Contains extends Filter {
-        private boolean contains(File file, String value) {
+        protected boolean contains(File file, String value) {
             return file.getName().contains(value);
         }
     }
@@ -139,7 +139,7 @@ public class Filter extends DirectoryProcessor {
      * this will be our Prefix class that basically holds the prefix func.
      */
     protected static class Prefix extends Filter {
-        private boolean prefix(File file, String value) {
+        protected boolean prefix(File file, String value) {
             return file.getName().startsWith(value);
         }
     }
@@ -148,7 +148,7 @@ public class Filter extends DirectoryProcessor {
      * this will be our Suffix class that basically holds the suffix func.
      */
     protected static class Suffix extends Filter {
-        private boolean suffix(File file, String value) {
+        protected boolean suffix(File file, String value) {
             return file.getName().endsWith(value);
         }
     }
@@ -157,7 +157,7 @@ public class Filter extends DirectoryProcessor {
      * this will be our Writable class that basically holds the writable func.
      */
     protected static class Writable extends Filter {
-        private boolean writable(File file) {
+        protected boolean writable(File file) {
             return file.canWrite();
         }
     }
@@ -166,7 +166,7 @@ public class Filter extends DirectoryProcessor {
      * this will be our Executable class that basically holds the executable func.
      */
     protected static class Executable extends Filter {
-        private boolean executable(File file) {
+        protected boolean executable(File file) {
             return file.canExecute();
         }
     }
@@ -175,7 +175,7 @@ public class Filter extends DirectoryProcessor {
      * this will be our Hidden class that basically holds the hidden func.
      */
     protected static class Hidden extends Filter {
-        private boolean hidden(File file) {
+        protected boolean hidden(File file) {
             return file.isHidden();
         }
     }
@@ -184,7 +184,7 @@ public class Filter extends DirectoryProcessor {
      * this will be our All class that basically holds the all func.
      */
     protected static class All extends Filter {
-        private boolean all(File fatherFile) {
+        protected boolean all(File fatherFile) {
             return true;
         }
     }

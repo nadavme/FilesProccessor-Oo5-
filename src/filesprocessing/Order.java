@@ -1,4 +1,4 @@
-// this are the java util functions we are going to use
+package filesprocessing;// this are the java util functions we are going to use
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -6,7 +6,7 @@ import java.lang.*;
 import java.io.*;
 
 /**
- * the father class for all the orders we will want to use, extends the DirectoryProcessor class
+ * the father class for all the orders we will want to use, extends the filesprocessing.DirectoryProcessor class
  */
 public class Order extends DirectoryProcessor {
 
@@ -29,7 +29,7 @@ public class Order extends DirectoryProcessor {
      * further more, helps us save memory space by not creating new objects every time.
      */
     public enum OrderQ {
-        // name for Order enums that will hold the Order objects.
+        // name for filesprocessing.Order enums that will hold the filesprocessing.Order objects.
         ABS("abs", new Abs()),
         TYPE("type", new Type()),
         SIZE("size", new Size()),
@@ -39,18 +39,18 @@ public class Order extends DirectoryProcessor {
         private final String OName;
         private final Order OObject;
 
-        // the default constructor for our enum, with the string and the Order object.
+        // the default constructor for our enum, with the string and the filesprocessing.Order object.
         OrderQ(String orderName, Order orderObject) {
             this.OName = orderName;
             this.OObject = orderObject;
         }
 
-        // the getter func for the string representing the Order name.
+        // the getter func for the string representing the filesprocessing.Order name.
         public String getOName() {
             return OName;
         }
 
-        // the getter func for the object representing the Order we want.
+        // the getter func for the object representing the filesprocessing.Order we want.
         public Order getOObject() {
             return OObject;
         }
