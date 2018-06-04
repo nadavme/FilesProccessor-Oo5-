@@ -34,10 +34,10 @@ public class commandFile {
      */
    void Errors(int lineNumber, Filter.FilterQ filter, Order.OrderQ order){
        if (filter == null){
-           System.out.println(WARNING + lineNumber + 1);
+           System.err.println(WARNING + lineNumber + 1);
        }
        if (order.getOName().equals("")){
-           System.out.println(WARNING + lineNumber + 3);
+           System.err.println(WARNING + lineNumber + 3);
        }
    }
 

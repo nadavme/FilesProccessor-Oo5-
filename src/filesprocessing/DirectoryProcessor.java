@@ -1,6 +1,8 @@
 package filesprocessing;
 // this are the java util functions we are going to use
 
+import com.sun.java.util.jar.pack.Package;
+
 import java.util.ArrayList;
 import java.lang.*;
 import java.io.*;
@@ -38,27 +40,23 @@ public class DirectoryProcessor {
     /**
      * this func simply prints the exception we encountered.
      *
-     * @param exeptionText - what we want to print.
+     * @param exceptionText - what we want to print.
      */
 
-    protected class handleData(){
 
-    }
-    public static void printException(String exeptionText) {
-        System.out.println(exeptionText);
+    public static void printException(String exceptionText) {
+        System.err.println(exceptionText);
         System.exit(0);
     }
 
 
     /**
-     * checks if the input command file is valid, that there are commands in the command file
-     * and that the input is in the right length.
      *
-     * @param commands - the list of commands.
+     * @param input
      */
     public static void inputValidity(String[] input) {
             if (input.length != 2){
-                System.out.println(BAD_INPUT_ERROR);
+                System.err.println(BAD_INPUT_ERROR);
                 System.exit(0);
         }
 
@@ -75,7 +73,7 @@ public class DirectoryProcessor {
 //        } catch (Exception e) {
 //            printException(BAD_COMMANDS);
 //        }
-    }
+
 
     /**
      * takes the file directory we received and checks that it is a directory,
@@ -84,7 +82,7 @@ public class DirectoryProcessor {
      * @param directoryPath - the String representing the directory we want.
      * @return the array list of file objects from the file directory.
      */
-    public ArrayList<File> directoryFileList(String directoryPath) {
+    public static ArrayList<File> directoryFileList(String directoryPath) {
         ArrayList<File> files = new ArrayList<File>();
         File fileDirectory = new File(directoryPath);
         try {
@@ -110,7 +108,7 @@ public class DirectoryProcessor {
      * @param path - the path we receive for the command file.
      * @return the array list of commands.
      */
-    public ArrayList<String> CommandsList(String path) throws Exception {
+    public static ArrayList<String> commandsList(String path) throws{
         ArrayList<String> commands = new ArrayList<String>();
         File file = new File(path);
         try {
@@ -127,44 +125,90 @@ public class DirectoryProcessor {
         } catch (FileNotFoundException e) {
             printException(BAD_COMMAND_FILE_ERROR);
         }
-        return commands;
+        return commands;}
+
+
 
     /**
-     * this function will take the list of commands and will put it into blocks of two commands,
-     * one filter command and one order command, so we will send these blocks to be executed.
      *
-     * @param commands - the list of commands.
-     * @return an array list of command blocks.
+      * @param commands
+     * @param data
+     * @param commandsPointer
+     * @return
      */
-    private ArrayList<Block> splitToBlocks(ArrayList<String> commands) {
-        ArrayList<Block> commandBlocks = new ArrayList<Block>();
-        int commandsPointer = 0;
-        while (commandsPointer < commands.size()) {
-            int tempPointer = 0;
-            while (tempPointer < 4) {
-                Block tempBlock = new Block(4);
-                if (commands.get(commandsPointer).equals(FILTER) && commands.get(commandsPointer + 1).equals("ORDER")) {
-                    tempBlock.list[tempPointer] = DEFAULT_COMMAND;
-                    if (commands.get(commandsPointer).equals(ORDER) && commands.get(commandsPointer + 1).equals("FILTER")) {
-                        tempBlock.list[tempPointer] = DEFAULT_COMMAND;
-                    } else {
-                        tempBlock.list[tempPointer] = commands.get(commandsPointer);
-                    }
-                    tempPointer++;
-                    commandsPointer++;
-                    commandBlocks.add(tempBlock);
+        private static int splitToBlocks(ArrayList<String> commands, String[] data, int commandsPointer) {
+            int i = 0;
+            while (i < BLOCK_SIZE && commandsPointer < commands.size()) {
+                if(isDefaultOrder(commands, data, commandsPointer, i)) {
+                    break;
                 }
+                data[i] = commands.get(i);
+                i ++;
+                commandsPointer ++;
             }
+            if(i == BLOCK_SIZE - 1) { // Check the case that the last line is ORDER
+                data[i] = DEFAULT_COMMAND;
+            }
+            return commandsPointer;
         }
-        return commandBlocks;
+
+    /**
+     *
+     * @param commands
+     * @param data
+     * @param commandsPointer
+     * @param i
+     * @return
+     */
+    private static boolean isDefaultOrder(ArrayList<String> commands, String[] data, int commandsPointer, int i) {
+        if (i== BLOCK_SIZE-1){
+            if (commands.get(commandsPointer).equals(FILTER)){
+                data[BLOCK_SIZE-1] = DEFAULT_COMMAND;
+                return true; } }
+        return false;}
+
+    /**
+     * This method will create a single Block.
+     * @param Blocks
+     * @param data
+     * @param idx
+     */
+    private void blocksCreator(ArrayList<Block> Blocks, String[] data, int idx) {
+        try {
+            Blocks.add(new Block(idx - BLOCK_SIZE + 1), data);
+        } catch (NullPointerException e) {
+            printException(BAD_FORMAT_ERROR);
+        } catch (NoSuchFieldException e) {
+            printException(BAD_SUBSECTION_ERROR);
+        }
     }
+
+    private static ArrayList<Block> blocksArray(ArrayList<String> commands){
+        int i = 0;
+        int j = 0;
+        ArrayList<Block> blocks = new ArrayList<>();
+        String[] data;
+        while (i < commands.size()){
+            data = new String[BLOCK_SIZE];
+            i = splitToBlocks(commands, data, j);
+            blocksCreator(blocks, data, i);
+        }
+        return blocks;
+    }
+
 
     /**
      * @param args
      */
-    // TODO: 5/31/18 Find a solution to the args issue, it doesnt fit with the ArrayList.
     public static void main(String[] args) {
-        DirectoryProcessor mainProccesor = new DirectoryProcessor();
-        inputValidity(ArrayList < String > args);
+        inputValidity(args);
+        ArrayList<String> commands = commandsList(args[COMMAND_FILE]);
+        ArrayList<Block> blocks = blocksArray(commands);
+        ArrayList<File> files = directoryFileList(args[SOURCEDIR]);
+        ArrayList<String> fixedFiles;
+        for (Block block: blocks){
+            block.doAction(files);
+        }
     }
+
 }
