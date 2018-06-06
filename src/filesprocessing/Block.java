@@ -1,5 +1,8 @@
 package filesprocessing;
 
+
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -39,12 +42,29 @@ public class Block  {
         }
     }
 
-
+    // TODO: 6/6/18 fix this, it has something to do with interface
     private void orderTheFiles(ArrayList<File> files) {
+        String type = CommandFile.sliceString(1, block[ORDER_INPUT]);
+        try{
+            order.getOObject()(files, type);
+        }
+        catch (Exceptions.Type1Exception e){
+            Order.orderBuilder(DEFAULTIVE_ORDER).getOObject().orderFiles(files, DEFAULTIVE_ORDER)
+        }
 
     }
 
+    // TODO: 6/6/18  fix this, it has something to do with interface
     private void filterTheFiles(ArrayList<File> files) {
-
+        if (filter != null){
+            String type = CommandFile.sliceString(1, block[FILTER_INPUT]);
+            String negative = CommandFile.sliceString(NEGATIVE_IDX, block[FILTER_INPUT]);
+            try{
+                filter.getfObject().filterFiles(files, type, negative);
+            }
+            catch (Exceptions.Type1Exception e){
+                filter = null;
+            }
+        }
     }
 }

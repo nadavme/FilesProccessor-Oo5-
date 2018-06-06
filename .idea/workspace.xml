@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ee30d1d7-760e-4fd3-a52b-e42fbe57af2d" name="Default" comment="I've built the Block class as a separate class, and organized the command file input in the CommandFile class.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/filesprocessing/CommandFile.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/filesprocessing/Exceptions.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/filesprocessing/commandFile.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="ee30d1d7-760e-4fd3-a52b-e42fbe57af2d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/filesprocessing/Block.java" afterPath="$PROJECT_DIR$/src/filesprocessing/Block.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/filesprocessing/Order.java" afterPath="$PROJECT_DIR$/src/filesprocessing/Order.java" />
@@ -65,8 +61,8 @@
           <file leaf-file-name="Block.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/filesprocessing/Block.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="621">
-                  <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+                <state relative-caret-position="604">
+                  <caret line="56" column="68" lean-forward="false" selection-start-line="56" selection-start-column="68" selection-end-line="56" selection-end-column="68" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -108,31 +104,11 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="Order.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/filesprocessing/Order.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-306">
-                  <caret line="10" column="19" lean-forward="false" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="Section.java" pinned="false" current-in-tab="true">
             <entry file="file://$USER_HOME$/Desktop/filesprocessing/Section.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="80">
-                  <caret line="45" column="28" lean-forward="false" selection-start-line="45" selection-start-column="18" selection-end-line="45" selection-end-column="30" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="OrderFactory.java" pinned="false" current-in-tab="false">
-            <entry file="file://$USER_HOME$/Desktop/filesprocessing/OrderFactory.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="17">
-                  <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+                <state relative-caret-position="-124">
+                  <caret line="21" column="29" lean-forward="false" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
                   <folding />
                 </state>
               </provider>
@@ -162,11 +138,13 @@
       <find>println</find>
       <find>REVERSE</find>
       <find>NOT</find>
+      <find>orderFiles</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="nadavme &lt;39315097+nadavme@users.noreply.github.com&gt;i" />
         <option value="nadavme &lt;39315097+nadavme@users.noreply.github.com&gt;" />
       </list>
     </option>
@@ -194,8 +172,10 @@
         <option value="$PROJECT_DIR$/src/filesprocessing/DirectoryProcessor.java" />
         <option value="$PROJECT_DIR$/src/filesprocessing/Exceptions.java" />
         <option value="$PROJECT_DIR$/src/filesprocessing/commandFile.java" />
-        <option value="$PROJECT_DIR$/src/filesprocessing/Order.java" />
         <option value="$PROJECT_DIR$/src/filesprocessing/CommandFile.java" />
+        <option value="$PROJECT_DIR$/src/filesprocessing/Order.java" />
+        <option value="$PROJECT_DIR$/src/orderInterface.java" />
+        <option value="$PROJECT_DIR$/src/filesprocessing/orderInterface.java" />
         <option value="$PROJECT_DIR$/src/filesprocessing/Block.java" />
       </list>
     </option>
@@ -372,7 +352,7 @@
       <updated>1527674559397</updated>
       <workItem from="1527674560561" duration="1675000" />
       <workItem from="1527753462939" duration="6162000" />
-      <workItem from="1528272482796" duration="6500000" />
+      <workItem from="1528272482796" duration="9751000" />
     </task>
     <task id="LOCAL-00001" summary="new project">
       <created>1527674728363</created>
@@ -409,11 +389,18 @@
       <option name="project" value="LOCAL" />
       <updated>1528125550701</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="i created an Exceptions class, and divide it to type 1 and two.&#10;&#10;i splitted the doAction to filtering an ordering seperate methods.">
+      <created>1528279148731</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1528279148731</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14337000" />
+    <option name="totallyTimeSpent" value="17588000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="25" width="1926" height="1033" extended-state="6" />
@@ -458,7 +445,8 @@
     <MESSAGE value="new project" />
     <MESSAGE value="just names bro" />
     <MESSAGE value="I've built the Block class as a separate class, and organized the command file input in the CommandFile class." />
-    <option name="LAST_COMMIT_MESSAGE" value="I've built the Block class as a separate class, and organized the command file input in the CommandFile class." />
+    <MESSAGE value="i created an Exceptions class, and divide it to type 1 and two.&#10;&#10;i splitted the doAction to filtering an ordering seperate methods." />
+    <option name="LAST_COMMIT_MESSAGE" value="i created an Exceptions class, and divide it to type 1 and two.&#10;&#10;i splitted the doAction to filtering an ordering seperate methods." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -708,6 +696,56 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/filesprocessing/CommandFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="66" column="10" lean-forward="true" selection-start-line="66" selection-start-column="10" selection-end-line="66" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/filesprocessing/OrderFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="24" lean-forward="true" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orderInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/filesprocessing/orders/Order.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/filesprocessing/filters/Filter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/filesprocessing/orderInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/Desktop/filesprocessing/parseData.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="590">
@@ -716,18 +754,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/filesprocessing/OrderFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/filesprocessing/Order.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-306">
-          <caret line="10" column="19" lean-forward="false" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
+        <state relative-caret-position="527">
+          <caret line="77" column="0" lean-forward="false" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -740,18 +770,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/filesprocessing/CommandFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="66" column="10" lean-forward="true" selection-start-line="66" selection-start-column="10" selection-end-line="66" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/filesprocessing/Block.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        <state relative-caret-position="604">
+          <caret line="56" column="68" lean-forward="false" selection-start-line="56" selection-start-column="68" selection-end-line="56" selection-end-column="68" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
