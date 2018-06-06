@@ -8,7 +8,7 @@ import java.io.*;
 /**
  * the father class for all the orders we will want to use, extends the filesprocessing.DirectoryProcessor class
  */
-public class Order extends DirectoryProcessor {
+public class Order {
 
     /**
      * this are the permanent parameters for our class
