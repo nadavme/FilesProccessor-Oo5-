@@ -1,4 +1,5 @@
 package filesprocessing;// this are the java util functions we are going to use
+
 import java.lang.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ public abstract class Filter {
 
     public abstract void filterFiles(ArrayList<File> files, String filter, String negative) throws Exceptions.Type1Exception;
 
-    protected void checkValidity(String value, String negative) throws Exceptions.Type1Exception{
-        if (!negative.equals(REGULAR) && !negative.equals(NEGATIVE)){
+    protected void checkValidity(String value, String negative) throws Exceptions.Type1Exception {
+        if (!negative.equals(REGULAR) && !negative.equals(NEGATIVE)) {
             throw new Exceptions.NegativeSuffixEx();
         }
     }
@@ -24,7 +25,7 @@ public abstract class Filter {
      * this is the enum we are going to use once we call the class, comes instead of a switch case.
      * further more, helps us save memory space by not creating new objects every time.
      */
-    public enum FilterQ {
+    enum FilterQ {
         BETWEEN("between", new Between()),
         NO_BET("not between", new NotBetween()),
         GREATER_THAN("greater_than", new GreaterThan()),
@@ -44,7 +45,8 @@ public abstract class Filter {
         // the default constructor for our enum, with the string and the filesprocessing.Filter object.
         FilterQ(String filterName, Filter filterObject) {
             this.fName = filterName;
-            this.fObject = filterObject;}
+            this.fObject = filterObject;
+        }
 
 
         // the getter func for the string representing the filesprocessing.Filter name.
@@ -63,6 +65,7 @@ public abstract class Filter {
     /**
      * this will be the function that simply checks what filter we need,
      * and then builds the filter object we were asked for with the right method.
+     *
      * @param filter - a string representing the filter we are asked for
      * @return the FilterQ object, that holds the name of the filter and the filter object,
      * and which is going to be the enum.
@@ -96,33 +99,44 @@ public abstract class Filter {
     }
 
 
-    static boolean isNegative(String negative){
-        return negative.equals(NEGATIVE); }
+    static boolean isNegative(String negative) {
+        return negative.equals(NEGATIVE);
+    }
 
-    public abstract class sizeHelper extends Filter{
+    public static abstract class sizeHelper extends Filter {
 
-        private static final float KB = 1024;
+        protected static final float KB = 1024;
 
-        protected void checkValidity(String filter, String negative) throws Exceptions.Type1Exception{
+        /**
+         * @param filter
+         * @param negative
+         * @throws Exceptions.Type1Exception
+         */
+        protected void checkValidity(String filter, String negative) throws Exceptions.Type1Exception {
             super.checkValidity(filter, negative);
-            try{
+            try {
                 double val = Double.parseDouble(filter);
-                if (val< 0){
+                if (val < 0) {
                     throw new Exceptions.InputValEx();
                 }
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 throw new Exceptions.InputValEx();
             }
         }
 
-        public void filterFiles(ArrayList<File> files, String filter, String negative) throws Exceptions.Type1Exception{
+        /**
+         * @param files
+         * @param filter
+         * @param negative
+         * @throws Exceptions.Type1Exception
+         */
+        public void filterFiles(ArrayList<File> files, String filter, String negative) throws Exceptions.Type1Exception {
             checkValidity(filter, negative);
             double val = Double.parseDouble(filter);
-            if (Filter.isNegative(negative)){
-                files.removeIf(f -> (f.length()/ KB) > val);
-            }
-            else{
-                files.removeIf(f -> (f.length()/ KB)< val);
+            if (Filter.isNegative(negative)) {
+                files.removeIf(f -> (f.length() / KB) > val);
+            } else {
+                files.removeIf(f -> (f.length() / KB) < val);
             }
         }
 
@@ -133,8 +147,8 @@ public abstract class Filter {
     /**
      * this will be our GreaterThan class that basically holds the greater_than func.
      */
-    public class GreaterThan extends sizeHelper {
-        public void filterFiles(ArrayList<File> files, String filter, String negative){
+    public static class GreaterThan extends sizeHelper {
+        public void filterFiles(ArrayList<File> files, String filter, String negative) {
             super.filterFiles(files, filter, negative);
         }
     }
@@ -142,12 +156,12 @@ public abstract class Filter {
     /**
      * this will be our SmallerThan class that basically holds the smaller_than func.
      */
-    protected class SmallerThan extends sizeHelper {
-        public void filterFiles(ArrayList<File> files, String filter, String negative) throws Exceptions.Type1Exception{
+    protected static class SmallerThan extends sizeHelper {
+        public void filterFiles(ArrayList<File> files, String filter, String negative) throws Exceptions.Type1Exception {
             super.checkValidity(filter, negative);
-            if (Filter.isNegative(negative)){
+            if (Filter.isNegative(negative)) {
                 super.filterFiles(files, filter, REGULAR);
-            }else{
+            } else {
                 super.filterFiles(files, filter, negative);
             }
         }
@@ -156,94 +170,261 @@ public abstract class Filter {
     /**
      * this will be our Between class that basically holds the between func.
      */
-    protected class Between extends sizeHelper {
-        public void filterFiles(ArrayList<File> files, String first, String second){
+    protected static class Between extends sizeHelper {
+        public void filterFiles(ArrayList<File> files, String first, String second) {
             isRangeValid(first, second);
-            super.filterFiles( files, first, REGULAR);
+            super.filterFiles(files, first, REGULAR);
             super.filterFiles(files, second, NEGATIVE);
 
         }
 
-        private void isRangeValid(String first, String second)throws Exceptions.Type1Exception {
-            if (Double.parseDouble(first) > Double.parseDouble(second)){
+        private void isRangeValid(String first, String second) throws Exceptions.Type1Exception {
+            if (Double.parseDouble(first) > Double.parseDouble(second)) {
                 throw new Exceptions.RangeEx();
             }
 
         }
     }
 
-    private class NotBetween extends Between {
-        
-    }
-    /**
-     * this will be our FileName class that basically holds the file func.
-     */
-    protected static class FileName extends Filter {
-        protected boolean file(File file, String value) {
-            return file.getName().equals(value);
+    // TODO: 6/6/18 u need a better class name than "not between"
+    private static class NotBetween extends Between {
+        /**
+         * @param files
+         * @param first
+         * @param second
+         */
+        public void filterFiles(ArrayList<File> files, String first, String second) {
+            super.checkValidity(first, REGULAR);
+            super.checkValidity(second, REGULAR);
+            super.isRangeValid(first, second);
+            double smaller = Double.parseDouble(first);
+            double greater = Double.parseDouble(second);
+            files.removeIf(f -> ((f.length() / KB) >= smaller && (f.length() / KB) <= greater));
         }
+
+
     }
 
     /**
-     * this will be our Contains class that basically holds the contains func.
+     *
      */
-    protected static class Contains extends Filter {
-        protected boolean contains(File file, String value) {
-            return file.getName().contains(value);
+    public static abstract class stringHelper extends Filter {
+        /**
+         * @param files
+         * @param filter
+         * @param negative
+         * @throws Exceptions.Type1Exception
+         */
+        @Override
+        public void filterFiles(ArrayList<File> files, String filter, String negative) throws Exceptions.Type1Exception {
+            checkValidity(filter, negative);
+            filterize(files, filter, isNegative(negative));
         }
+
+        /**
+         *
+         */
+        protected abstract void filterize(ArrayList<File> files, String filter, boolean negative);
     }
 
     /**
-     * this will be our Prefix class that basically holds the prefix func.
+     *
      */
-    protected static class Prefix extends Filter {
-        protected boolean prefix(File file, String value) {
-            return file.getName().startsWith(value);
+    protected static class FileName extends stringHelper {
+        /**
+         * @param files
+         * @param filter
+         * @param negative
+         */
+        @Override
+        protected void filterize(ArrayList<File> files, String filter, boolean negative) {
+            if (!negative) {
+                files.removeIf(f -> f.getName().equals(filter));
+            } else {
+                files.removeIf(f -> f.getName().equals(filter));
+            }
         }
     }
+
+//        protected boolean file(File file, String value) {
+//            return file.getName().equals(value);
+//        }
+//    }
+
+    /**
+     *
+     */
+    protected static class Contains extends stringHelper {
+
+        /**
+         * @param files
+         * @param filter
+         * @param negative
+         */
+        @Override
+        protected void filterize(ArrayList<File> files, String filter, boolean negative) {
+            if (!negative) {
+                files.removeIf(f -> !f.getName().contains(filter));
+            } else {
+                files.removeIf(f -> f.getName().contains(filter));
+            }
+        }
+    }
+//    }
+//        protected boolean contains(File file, String value) {
+//            return file.getName().contains(value);
+//        }
+//    }
+
+    /**
+     *
+     */
+    protected static class Prefix extends stringHelper {
+        /**
+         * @param files
+         * @param filter
+         * @param negative
+         */
+        @Override
+        protected void filterize(ArrayList<File> files, String filter, boolean negative) {
+            if (!negative) {
+                files.removeIf(f -> !f.getName().startsWith(filter));
+            } else {
+                files.removeIf(f -> f.getName().startsWith(filter));
+            }
+        }
+    }
+//    }
+//        protected boolean prefix(File file, String value) {
+//            return file.getName().startsWith(value);
+//        }
+//    }
 
     /**
      * this will be our Suffix class that basically holds the suffix func.
      */
-    protected static class Suffix extends Filter {
-        protected boolean suffix(File file, String value) {
-            return file.getName().endsWith(value);
+    protected static class Suffix extends stringHelper {
+        /**
+         * @param files
+         * @param filter
+         * @param negative
+         */
+        @Override
+        protected void filterize(ArrayList<File> files, String filter, boolean negative) {
+            if (!negative) {
+                files.removeIf(f -> !f.getName().endsWith(filter));
+            } else {
+                files.removeIf(f -> f.getName().endsWith(filter));
+            }
+
         }
     }
 
-    /**
-     * this will be our Writable class that basically holds the writable func.
-     */
-    protected static class Writable extends Filter {
-        protected boolean writable(File file) {
-            return file.canWrite();
+//    }
+//        protected boolean suffix(File file, String value) {
+//            return file.getName().endsWith(value);
+//        }
+//    }
+
+
+    public static abstract class permissionHelper extends Filter {
+        /**
+         * @param value
+         * @param negative
+         * @throws Exceptions.Type1Exception
+         */
+        @Override
+        protected void checkValidity(String value, String negative) throws Exceptions.Type1Exception {
+            super.checkValidity(value, negative);
+            if (!value.equals("YES") && !value.equals("NO")) {
+                throw new Exceptions.NoPermissionEx();
+            }
+        }
+
+        /**
+         * @param permit
+         * @return
+         */
+        private boolean isPermitted(String permit) {
+            return permit.equals("YES");
+        }
+
+        /**
+         * @param files
+         * @param permit
+         * @param negative
+         */
+        protected abstract void filterize(ArrayList<File> files, boolean permit, boolean negative);
+
+        /**
+         * @param files
+         * @param filter
+         * @param negative
+         * @throws Exceptions.Type1Exception
+         */
+        public void filterFiles(ArrayList<File> files, String filter, String negative) throws
+                Exceptions.Type1Exception {
+            checkValidity(filter, negative);
+            filterize(files, isPermitted(filter), isNegative(negative));
         }
     }
 
-    /**
-     * this will be our Executable class that basically holds the executable func.
-     */
-    protected static class Executable extends Filter {
-        protected boolean executable(File file) {
-            return file.canExecute();
+
+    protected static class Writable extends permissionHelper {
+
+        @Override
+        protected void filterize(ArrayList<File> files, boolean permit, boolean negative) {
+            if ((permit && !negative) || (!permit && negative)) {
+                files.removeIf(f -> !f.canWrite());
+            } else {
+                files.removeIf(f -> f.canWrite());
+            }
         }
     }
+
+//        protected boolean writable(File file) {
+//            return file.canWrite();
+//        }
+
+
+    /**
+     *
+     */
+    protected static class Executable extends permissionHelper {
+        /**
+         * @param files
+         * @param permit
+         * @param negative
+         */
+        @Override
+        protected void filterize(ArrayList<File> files, boolean permit, boolean negative) {
+            if ((permit && !negative) || (!permit && negative)) {
+                files.removeIf(f -> !f.canExecute());
+            } else {
+                files.removeIf(f -> f.canExecute());
+            }
+        }
+    }
+
+//        protected boolean executable(File file) {
+//            return file.canExecute();
+//        }
+//    }
 
     /**
      * this will be our Hidden class that basically holds the hidden func.
      */
-    protected static class Hidden extends Filter {
-        protected boolean hidden(File file) {
-            return file.isHidden();
-        }
-    }
-
-    /**
-     * this will be our All class that basically holds the all func.
-     */
-    protected static class All extends Filter {
-        protected boolean all(File fatherFile) {
-            return true;
+    protected static class Hidden extends permissionHelper {
+        @Override
+        protected void filterize(ArrayList<File> files, boolean permit, boolean negative) {
+            if ((permit && !negative) || (!permit && negative)) {
+                files.removeIf(f -> !f.isHidden());
+            } else {
+                files.removeIf(f -> f.isHidden());
+            }
         }
     }
 }
+
+
+

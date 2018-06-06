@@ -25,29 +25,36 @@ public class Exceptions {
     /**
      *
      */
-    protected static class InputValEx extends Type1Exception{}
+    protected static class InputValEx extends Type1Exception {
+    }
 
     /**
      *
      */
-    protected static class RangeEx extends Type1Exception{}
+    protected static class RangeEx extends Type1Exception {
+    }
 
     /**
      *
      */
-    protected static class ReverseEx extends Type1Exception{}
+    protected static class ReverseEx extends Type1Exception {
+    }
 
     /**
      *
      */
-    protected static class NegativeSuffixEx extends Type1Exception{
+    protected static class NegativeSuffixEx extends Type1Exception {
 
-        public NegativeSuffixEx() {super(); }}
+        public NegativeSuffixEx() {
+            super();
+        }
+    }
 
     /**
      *
      */
-    protected static class NoPermissionEx extends Type1Exception{}
+    protected static class NoPermissionEx extends Type1Exception {
+    }
 
 
     /**
@@ -76,15 +83,17 @@ public class Exceptions {
     /**
      *
      */
-    protected static class SectionEx extends Type2Exception{
+    protected static class SectionEx extends Type2Exception {
 
-        protected SectionEx(String err) { super(err); }
+        protected SectionEx(String err) {
+            super(err);
+        }
     }
 
     /**
      *
      */
-    protected static class SourcedirEx extends Type2Exception{
+    protected static class SourcedirEx extends Type2Exception {
 
         protected SourcedirEx() {
             super(BAD_SOURCEDIR);
@@ -96,22 +105,28 @@ public class Exceptions {
      */
     protected static class FileEx extends Type2Exception {
 
-        protected FileEx(){super(BAD_COMMAND_FILE);}
+        protected FileEx() {
+            super(BAD_COMMAND_FILE);
+        }
 
     }
 
     /**
      *
      */
-    protected static class FilterEx extends Type2Exception{
-        protected FilterEx(String err){super(err);}
+    protected static class FilterEx extends Type2Exception {
+        protected FilterEx(String err) {
+            super(err);
+        }
     }
 
     /**
      *
      */
-    protected static class OrderEx extends Type2Exception{
-        protected OrderEx(String err) { super(err); }
+    protected static class OrderEx extends Type2Exception {
+        protected OrderEx(String err) {
+            super(err);
+        }
     }
 
 

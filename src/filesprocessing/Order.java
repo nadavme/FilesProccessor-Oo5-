@@ -1,11 +1,12 @@
 package filesprocessing;// this are the java util functions we are going to use
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.lang.*;
 import java.io.*;
+
 import filesprocessing.Exceptions.ReverseEx;
-import filesprocessing.Exceptions.Type1Exception;
 
 
 /**
@@ -22,14 +23,6 @@ public class Order {
     private static final String TYPE_SEPARATOR = "\\.";
 
 
-
-//    /**
-//     * the default constructor
-//     */
-//    public Order()  {
-//        Order order = new Order();
-//    }
-
     /**
      * this is the enum we are going to use once we call the class, comes instead of a switch case.
      * further more, helps us save memory space by not creating new objects every time.
@@ -43,10 +36,10 @@ public class Order {
 
         // this are the two parameters we give the enum.
         private final String oName;
-        private final Order orderObject;
+        private final OrderInterface orderObject;
 
         // the default constructor for our enum, with the string and the filesprocessing.Order object.
-        OrderQ(String orderName, Order orderObject) {
+        OrderQ(String orderName, OrderInterface orderObject) {
             this.oName = orderName;
             this.orderObject = orderObject;
         }
@@ -57,7 +50,7 @@ public class Order {
         }
 
         // the getter func for the object representing the filesprocessing.Order we want.
-        public Order getOrderObject() {
+        public OrderInterface getOrderObject() {
             return orderObject;
         }
     }
@@ -65,6 +58,7 @@ public class Order {
     /**
      * this will be the function that simply checks what order we need,
      * and then builds the order object we were asked for with the right method.
+     *
      * @param order - a string representing the order we are asked for
      * @return the OrderQ object, that holds the name of the order and the order object,
      * and which is going to be the enum.
@@ -82,13 +76,13 @@ public class Order {
     }
 
 
-
     /**
      * this function simply checks that the 'reversed' parameter is valid,
      * has only one of two values possible.
+     *
      * @param reversed - the parameter that indicates if we should reverse the order.
      */
-    private void CheckValidity(String reversed) {
+    private static void CheckValidity(String reversed) {
         if (!reversed.equals(REVERSE) && !reversed.equals(REGULAR)) {
             throw new ReverseEx();
         }
@@ -96,6 +90,7 @@ public class Order {
 
     /**
      * the func that gives us the suffix of the file.
+     *
      * @param file - the file object we are examining.
      * @return the suffix of the file.
      */
@@ -110,7 +105,8 @@ public class Order {
     /**
      * this func checks if the reversed parameter indicates that the order should be reversed,
      * and if it does indicates that it reverses the order.
-     * @param files - the array list of files we want to order.
+     *
+     * @param files    - the array list of files we want to order.
      * @param reversed - the reversed parameter.
      * @return the files ordered.
      */
@@ -124,11 +120,12 @@ public class Order {
     /**
      * this will be our Abs class that basically holds the func for the abs order.
      */
-    protected class Abs implements OrderInterface {
+    protected static class Abs implements OrderInterface {
 
         /**
          * the function that organizes the files by abs order.
-         * @param files - the array list of files
+         *
+         * @param files    - the array list of files
          * @param reversed - the reversed parameter.
          * @return the files ordered.
          */
@@ -140,7 +137,7 @@ public class Order {
                     return f1.getName().compareTo(f2.getName());
                 }
             });
-            if (reversed.equals(REVERSE)){
+            if (reversed.equals(REVERSE)) {
                 Collections.reverse(files);
             }
 
@@ -150,11 +147,12 @@ public class Order {
     /**
      * this will be our size class that basically holds the func for the size order.
      */
-    protected class Size extends Abs {
+    protected static class Size extends Abs {
 
         /**
          * the function that organizes the files by size order.
-         * @param files - the array list of files
+         *
+         * @param files    - the array list of files
          * @param reversed - the reversed parameter.
          * @return the files ordered.
          */
@@ -168,18 +166,21 @@ public class Order {
                     return file1Size.compareTo(file2.length());
                 }
             });
-            if (reversed.equals(REVERSE)){Collections.reverse(files);
+            if (reversed.equals(REVERSE)) {
+                Collections.reverse(files);
+            }
         }
     }
 
     /**
      * this will be our type class that basically holds the func for the type order.
      */
-    protected class Type extends Abs {
+    protected static class Type extends Abs {
 
         /**
          * the function that organizes the files by type order.
-         * @param files - the array list of files
+         *
+         * @param files    - the array list of files
          * @param reversed - the reversed parameter.
          * @return the files ordered.
          */
@@ -196,13 +197,13 @@ public class Order {
             });
         }
 
-        private  String fileSuffix(String name){
-        String[] splitted = name.split(TYPE_SEPARATOR);
-        if (splitted.length == 0 || splitted.length ==1|| (splitted.length == 2 && splitted[0].equals(REGULAR))){
-            return REGULAR;
-        }
-        return splitted[splitted.length-1];
+        private String fileSuffix(String name) {
+            String[] splitted = name.split(TYPE_SEPARATOR);
+            if (splitted.length == 0 || splitted.length == 1 || (splitted.length == 2 && splitted[0].equals(REGULAR))) {
+                return REGULAR;
+            }
+            return splitted[splitted.length - 1];
         }
     }
-    }
+
 }

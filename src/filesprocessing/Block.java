@@ -5,7 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 
-public class Block  {
+public class Block {
 
     private String[] block;
     private Order.OrderQ order;
@@ -16,7 +16,6 @@ public class Block  {
     protected static final int ORDER_INPUT = 3;
     protected static final int FILTER_INPUT = 1;
     protected static final int NEGATIVE_IDX = 2;
-
 
 
     Block(int lineNumber, String[] data) throws Exceptions.Type2Exception {
@@ -30,12 +29,12 @@ public class Block  {
 
     }
 
-    private void doAction(ArrayList<File> files) {
+    protected void doAction(ArrayList<File> files) {
         filterTheFiles(files);
         orderTheFiles(files);
         CommandFile.Errors(lineNumber, block, filter, order);
-        for(File file: files){
-            if (file != null){
+        for (File file : files) {
+            if (file != null) {
                 System.out.println(file.getName());
             }
         }
@@ -44,24 +43,22 @@ public class Block  {
     // TODO: 6/6/18 fix this, it has something to do with interface
     private void orderTheFiles(ArrayList<File> files) {
         String type = CommandFile.sliceString(1, block[ORDER_INPUT]);
-        try{
-            order.getOrderObject().(files, type);
-        }
-        catch (Exceptions.Type1Exception e){
-            Order.orderBuilder(DEFAULTIVE_ORDER).getOrderObject().orderFiles(files, DEFAULTIVE_ORDER)
+        try {
+            order.getOrderObject().orderFiles(files, type);
+        } catch (Exceptions.Type1Exception e) {
+            Order.orderBuilder(DEFAULTIVE_ORDER).getOrderObject().orderFiles(files, DEFAULTIVE_ORDER);
         }
 
     }
 
     // TODO: 6/6/18  fix this, it has something to do with interface
     private void filterTheFiles(ArrayList<File> files) {
-        if (filter != null){
+        if (filter != null) {
             String type = CommandFile.sliceString(1, block[FILTER_INPUT]);
             String negative = CommandFile.sliceString(NEGATIVE_IDX, block[FILTER_INPUT]);
-            try{
+            try {
                 filter.getfObject().filterFiles(files, type, negative);
-            }
-            catch (Exceptions.Type1Exception e){
+            } catch (Exceptions.Type1Exception e) {
                 filter = null;
             }
         }
