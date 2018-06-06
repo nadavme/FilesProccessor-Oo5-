@@ -4,6 +4,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.lang.*;
 import java.io.*;
+import filesprocessing.Exceptions.ReverseEx;
+import filesprocessing.Exceptions.Type1Exception;
+
 
 /**
  * the father class for all the orders we will want to use, extends the filesprocessing.DirectoryProcessor class
@@ -16,13 +19,16 @@ public class Order {
     private static final String REVERSE = "REVERSE";
     private static final String REGULAR = "";
     private static final String SEPARATOR = ".";
+    private static final String TYPE_SEPARATOR = "\\.";
 
-    /**
-     * the default constructor
-     */
-    public Order() {
-        Order order = new Order();
-    }
+
+
+//    /**
+//     * the default constructor
+//     */
+//    public Order()  {
+//        Order order = new Order();
+//    }
 
     /**
      * this is the enum we are going to use once we call the class, comes instead of a switch case.
@@ -36,23 +42,23 @@ public class Order {
         DEFAULT_ORDER("default", new Abs());
 
         // this are the two parameters we give the enum.
-        private final String OName;
-        private final Order OObject;
+        private final String oName;
+        private final Order orderObject;
 
         // the default constructor for our enum, with the string and the filesprocessing.Order object.
         OrderQ(String orderName, Order orderObject) {
-            this.OName = orderName;
-            this.OObject = orderObject;
+            this.oName = orderName;
+            this.orderObject = orderObject;
         }
 
         // the getter func for the string representing the filesprocessing.Order name.
-        public String getOName() {
-            return OName;
+        public String getoName() {
+            return oName;
         }
 
         // the getter func for the object representing the filesprocessing.Order we want.
-        public Order getOObject() {
-            return OObject;
+        public Order getOrderObject() {
+            return orderObject;
         }
     }
 
@@ -64,11 +70,11 @@ public class Order {
      * and which is going to be the enum.
      */
     public static OrderQ orderBuilder(String order) {
-        if (order.equals(OrderQ.ABS.getOName())) {
+        if (order.equals(OrderQ.ABS.getoName())) {
             return OrderQ.ABS;
-        } else if (order.equals(OrderQ.TYPE.getOName())) {
+        } else if (order.equals(OrderQ.TYPE.getoName())) {
             return OrderQ.TYPE;
-        } else if (order.equals(OrderQ.SIZE.getOName())) {
+        } else if (order.equals(OrderQ.SIZE.getoName())) {
             return OrderQ.SIZE;
         } else {
             return OrderQ.DEFAULT_ORDER;
@@ -82,9 +88,9 @@ public class Order {
      * has only one of two values possible.
      * @param reversed - the parameter that indicates if we should reverse the order.
      */
-    private static void CheckValidity(String reversed) {
+    private void CheckValidity(String reversed) {
         if (!reversed.equals(REVERSE) && !reversed.equals(REGULAR)) {
-            throw new UnsupportedOperationException();
+            throw new ReverseEx();
         }
     }
 
@@ -93,7 +99,7 @@ public class Order {
      * @param file - the file object we are examining.
      * @return the suffix of the file.
      */
-    private static String fileSuffix(File file) {
+    private String fileSuffix(File file) {
         if (!file.getName().contains(SEPARATOR)) {
             return REGULAR;
         }
@@ -118,7 +124,7 @@ public class Order {
     /**
      * this will be our Abs class that basically holds the func for the abs order.
      */
-    protected static class Abs extends Order {
+    protected class Abs implements OrderInterface {
 
         /**
          * the function that organizes the files by abs order.
@@ -126,17 +132,25 @@ public class Order {
          * @param reversed - the reversed parameter.
          * @return the files ordered.
          */
-        private ArrayList<File> AbsOrder(ArrayList<File> files, String reversed) {
+        public void orderFiles(ArrayList<File> files, String reversed) {
             CheckValidity(reversed);
-            Collections.sort(files);
-            return isReversed(files, reversed);
+            Collections.sort(files, new Comparator<File>() {
+                @Override
+                public int compare(File f1, File f2) {
+                    return f1.getName().compareTo(f2.getName());
+                }
+            });
+            if (reversed.equals(REVERSE)){
+                Collections.reverse(files);
+            }
+
         }
     }
 
     /**
      * this will be our size class that basically holds the func for the size order.
      */
-    protected static class Size extends Order {
+    protected class Size extends Abs {
 
         /**
          * the function that organizes the files by size order.
@@ -144,8 +158,9 @@ public class Order {
          * @param reversed - the reversed parameter.
          * @return the files ordered.
          */
-        private ArrayList<File> SizeOrder(ArrayList<File> files, String reversed) {
+        public void orderFiles(ArrayList<File> files, String reversed) {
             CheckValidity(reversed);
+            super.orderFiles(files, REGULAR);
             Collections.sort(files, new Comparator<File>() {
                 @Override
                 public int compare(File file1, File file2) {
@@ -153,14 +168,14 @@ public class Order {
                     return file1Size.compareTo(file2.length());
                 }
             });
-            return isReversed(files, reversed);
+            if (reversed.equals(REVERSE)){Collections.reverse(files);
         }
     }
 
     /**
      * this will be our type class that basically holds the func for the type order.
      */
-    protected static class Type extends Order {
+    protected class Type extends Abs {
 
         /**
          * the function that organizes the files by type order.
@@ -168,17 +183,26 @@ public class Order {
          * @param reversed - the reversed parameter.
          * @return the files ordered.
          */
-        private ArrayList<File> TypeOrder(ArrayList<File> files, String reversed) {
+        public void orderFiles(ArrayList<File> files, String reversed) {
             CheckValidity(reversed);
+            super.orderFiles(files, REGULAR);
             Collections.sort(files, new Comparator<File>() {
                 @Override
                 public int compare(File file1, File file2) {
-                    String file1Suffix = fileSuffix(file1);
-                    String file2Suffix = fileSuffix(file2);
+                    String file1Suffix = fileSuffix(file1.getName());
+                    String file2Suffix = fileSuffix(file2.getName());
                     return file1Suffix.compareTo(file2Suffix);
                 }
             });
-            return isReversed(files, reversed);
         }
+
+        private  String fileSuffix(String name){
+        String[] splitted = name.split(TYPE_SEPARATOR);
+        if (splitted.length == 0 || splitted.length ==1|| (splitted.length == 2 && splitted[0].equals(REGULAR))){
+            return REGULAR;
+        }
+        return splitted[splitted.length-1];
+        }
+    }
     }
 }

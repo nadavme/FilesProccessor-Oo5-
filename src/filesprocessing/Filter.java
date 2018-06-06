@@ -1,18 +1,24 @@
 package filesprocessing;// this are the java util functions we are going to use
 import java.lang.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * the father class for all the filters we will want to use, extends the filesprocessing.DirectoryProcessor class
  */
-public class Filter extends DirectoryProcessor {
+public abstract class Filter {
+    protected static final String NEGATIVE = "NOT";
+    protected static final String REGULAR = "";
 
-    /**
-     * the default constructor
-     */
-    public Filter() {
-        Filter filter = new Filter();
+
+    public abstract void filterFiles(ArrayList<File> files, String filter, String negative) throws Exceptions.Type1Exception;
+
+    protected void checkValidity(String value, String negative) throws Exceptions.Type1Exception{
+        if (!negative.equals(REGULAR) && !negative.equals(NEGATIVE)){
+            throw new Exceptions.NegativeSuffixEx();
+        }
     }
+
 
     /**
      * this is the enum we are going to use once we call the class, comes instead of a switch case.
@@ -20,6 +26,7 @@ public class Filter extends DirectoryProcessor {
      */
     public enum FilterQ {
         BETWEEN("between", new Between()),
+        NO_BET("not between", new NotBetween()),
         GREATER_THAN("greater_than", new GreaterThan()),
         SMALLER_THAN("smaller_than", new SmallerThan()),
         NAME("file", new FileName()),
@@ -36,14 +43,9 @@ public class Filter extends DirectoryProcessor {
 
         // the default constructor for our enum, with the string and the filesprocessing.Filter object.
         FilterQ(String filterName, Filter filterObject) {
-            if (filterName == null || filterObject == null) {
-                this.fName = "temp";
-                this.fObject = null;
-            } else {
-                this.fName = filterName;
-                this.fObject = filterObject;
-            }
-        }
+            this.fName = filterName;
+            this.fObject = filterObject;}
+
 
         // the getter func for the string representing the filesprocessing.Filter name.
         public String getfName() {
@@ -55,6 +57,7 @@ public class Filter extends DirectoryProcessor {
             return fObject;
         }
 
+
     }
 
     /**
@@ -64,9 +67,11 @@ public class Filter extends DirectoryProcessor {
      * @return the FilterQ object, that holds the name of the filter and the filter object,
      * and which is going to be the enum.
      */
-    public static FilterQ filterBuilder(String filter) {
+    protected static FilterQ filterBuilder(String filter) {
         if (filter.equals(FilterQ.BETWEEN.getfName())) {
             return FilterQ.BETWEEN;
+        } else if (filter.equals(FilterQ.NO_BET.getfName())) {
+            return FilterQ.NO_BET;
         } else if (filter.equals(FilterQ.GREATER_THAN.getfName())) {
             return FilterQ.GREATER_THAN;
         } else if (filter.equals(FilterQ.SMALLER_THAN.getfName())) {
@@ -90,33 +95,86 @@ public class Filter extends DirectoryProcessor {
         }
     }
 
+
+    static boolean isNegative(String negative){
+        return negative.equals(NEGATIVE); }
+
+    public abstract class sizeHelper extends Filter{
+
+        private static final float KB = 1024;
+
+        protected void checkValidity(String filter, String negative) throws Exceptions.Type1Exception{
+            super.checkValidity(filter, negative);
+            try{
+                double val = Double.parseDouble(filter);
+                if (val< 0){
+                    throw new Exceptions.InputValEx();
+                }
+            } catch (NumberFormatException e){
+                throw new Exceptions.InputValEx();
+            }
+        }
+
+        public void filterFiles(ArrayList<File> files, String filter, String negative) throws Exceptions.Type1Exception{
+            checkValidity(filter, negative);
+            double val = Double.parseDouble(filter);
+            if (Filter.isNegative(negative)){
+                files.removeIf(f -> (f.length()/ KB) > val);
+            }
+            else{
+                files.removeIf(f -> (f.length()/ KB)< val);
+            }
+        }
+
+
+    }
+
+
     /**
      * this will be our GreaterThan class that basically holds the greater_than func.
      */
-    public static class GreaterThan extends Filter {
-        protected boolean greater_than(File file, double Bytes) {
-            return ((double) (file.length() / 1024) > Bytes);
+    public class GreaterThan extends sizeHelper {
+        public void filterFiles(ArrayList<File> files, String filter, String negative){
+            super.filterFiles(files, filter, negative);
         }
     }
 
     /**
      * this will be our SmallerThan class that basically holds the smaller_than func.
      */
-    protected static class SmallerThan extends Filter {
-        protected boolean smaller_than(File file, double Bytes) {
-            return ((double) (file.length() / 1024) < Bytes);
+    protected class SmallerThan extends sizeHelper {
+        public void filterFiles(ArrayList<File> files, String filter, String negative) throws Exceptions.Type1Exception{
+            super.checkValidity(filter, negative);
+            if (Filter.isNegative(negative)){
+                super.filterFiles(files, filter, REGULAR);
+            }else{
+                super.filterFiles(files, filter, negative);
+            }
         }
     }
 
     /**
      * this will be our Between class that basically holds the between func.
      */
-    protected static class Between extends Filter {
-        protected boolean between(File file, double upperBytes, double lowerBytes) {
-            return ((double) (file.length() / 1024) >= lowerBytes && (double) (file.length() / 1024) <= upperBytes);
+    protected class Between extends sizeHelper {
+        public void filterFiles(ArrayList<File> files, String first, String second){
+            isRangeValid(first, second);
+            super.filterFiles( files, first, REGULAR);
+            super.filterFiles(files, second, NEGATIVE);
+
+        }
+
+        private void isRangeValid(String first, String second)throws Exceptions.Type1Exception {
+            if (Double.parseDouble(first) > Double.parseDouble(second)){
+                throw new Exceptions.RangeEx();
+            }
+
         }
     }
 
+    private class NotBetween extends Between {
+        
+    }
     /**
      * this will be our FileName class that basically holds the file func.
      */

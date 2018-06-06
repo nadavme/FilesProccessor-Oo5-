@@ -16,8 +16,8 @@ public class Exceptions {
     private static final String BAD_COMMANDS = "invalid command input! there should be ONLY two commands.";
     private final static String BAD_SOURCEDIR = "ERROR: No files in sourcedir";
 
-    public abstract class Type1Exception extends RuntimeException {
-        protected Type1Exception() {
+    public static abstract class Type1Exception extends RuntimeException {
+        public Type1Exception() {
             super();
         }
     }
@@ -25,35 +25,35 @@ public class Exceptions {
     /**
      *
      */
-    protected class InputValEx extends Type1Exception{}
+    protected static class InputValEx extends Type1Exception{}
 
     /**
      *
      */
-    protected class RangeEx extends Type1Exception{}
+    protected static class RangeEx extends Type1Exception{}
 
     /**
      *
      */
-    protected class ReverseEx extends Type1Exception{}
+    protected static class ReverseEx extends Type1Exception{}
 
     /**
      *
      */
-    protected class NegativeSuffixEx extends Type1Exception{
+    protected static class NegativeSuffixEx extends Type1Exception{
 
         public NegativeSuffixEx() {super(); }}
 
     /**
      *
      */
-    protected class NoPermissionEx extends Type1Exception{}
+    protected static class NoPermissionEx extends Type1Exception{}
 
 
     /**
      *
      */
-    public abstract class Type2Exception extends Exception {
+    public static abstract class Type2Exception extends Exception {
         protected Type2Exception(String err) {
             super(err);
         }
@@ -62,7 +62,7 @@ public class Exceptions {
     /**
      *
      */
-    protected class inputEX extends Type2Exception {
+    protected static class inputEX extends Type2Exception {
 
         protected inputEX(String err) {
             super(err);
@@ -76,7 +76,7 @@ public class Exceptions {
     /**
      *
      */
-    protected class SectionEx extends Type2Exception{
+    protected static class SectionEx extends Type2Exception{
 
         protected SectionEx(String err) { super(err); }
     }
@@ -84,7 +84,7 @@ public class Exceptions {
     /**
      *
      */
-    protected class SourcedirEx extends Type2Exception{
+    protected static class SourcedirEx extends Type2Exception{
 
         protected SourcedirEx() {
             super(BAD_SOURCEDIR);
@@ -94,7 +94,7 @@ public class Exceptions {
     /**
      *
      */
-    protected class FileEx extends Type2Exception {
+    protected static class FileEx extends Type2Exception {
 
         protected FileEx(){super(BAD_COMMAND_FILE);}
 
@@ -103,14 +103,14 @@ public class Exceptions {
     /**
      *
      */
-    protected class FilterEx extends Type2Exception{
+    protected static class FilterEx extends Type2Exception{
         protected FilterEx(String err){super(err);}
     }
 
     /**
      *
      */
-    protected class OrderEx extends Type2Exception{
+    protected static class OrderEx extends Type2Exception{
         protected OrderEx(String err) { super(err); }
     }
 

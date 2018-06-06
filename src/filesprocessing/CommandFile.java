@@ -51,12 +51,7 @@ public class CommandFile {
 //     * @param filter
 //     * @return
 //     */
-////   boolean isNegative(String filterInput,String filter){
-////       if (filter != null){
-////           return filterInput.contains(NEGATIVE);
-////       }
-////       return false;
-////   }
+
 
     /**
      *
@@ -68,7 +63,7 @@ public class CommandFile {
        if (filter == null && !block[1].equals(DEFAULT_FILTER)){
            System.err.println(WARNING + lineNumber + FILTER_LINE_NUM);
        }
-       if (order.getOName().equals(EMPTY)){
+       if (order.getoName().equals(EMPTY)){
            System.err.println(WARNING + lineNumber + ORDER_LINE_NUM);
        }
    }

@@ -1,10 +1,9 @@
 package filesprocessing;
 
 
-import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
-
 import java.io.File;
 import java.util.ArrayList;
+
 
 public class Block  {
 
@@ -46,10 +45,10 @@ public class Block  {
     private void orderTheFiles(ArrayList<File> files) {
         String type = CommandFile.sliceString(1, block[ORDER_INPUT]);
         try{
-            order.getOObject()(files, type);
+            order.getOrderObject().(files, type);
         }
         catch (Exceptions.Type1Exception e){
-            Order.orderBuilder(DEFAULTIVE_ORDER).getOObject().orderFiles(files, DEFAULTIVE_ORDER)
+            Order.orderBuilder(DEFAULTIVE_ORDER).getOrderObject().orderFiles(files, DEFAULTIVE_ORDER)
         }
 
     }
