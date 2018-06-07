@@ -77,21 +77,6 @@ public class DirectoryProcessor {
         }
         return files;
     }
-//        try {
-//            if (!fileDirectory.isDirectory() || fileDirectory.length() == 0) {
-//                throw new FileNotFoundException();
-//            }
-//            File[] fileList = fileDirectory.listFiles();
-//            for (File file : fileList) {
-//                if (file.isFile() && file.exists()) {
-//                    files.add(file);
-//                }
-//            }
-//        } catch (FileNotFoundException e) {
-//            printException(BAD_SOURCEDIR_ERROR);
-//        }
-//        return files;
-//    }
 
     /**
      * this func takes the file that has the commands and separates each line and
@@ -117,24 +102,14 @@ public class DirectoryProcessor {
         }
         return commands;
     }
-//            BufferedReader reader = new BufferedReader(new FileReader(file));
-//            String line = reader.readLine();
-//            while (line != null) {
-//                commands.add(line);
-//                line = reader.readLine();}
-//            reader.close();
-//            return commands;
-//        } catch (FileNotFoundException e) {
-//            printException(BAD_COMMAND_FILE_ERROR);
-//        }
-//        return commands;}
-
 
     /**
-     * @param commands
-     * @param data
-     * @param commandsPointer
-     * @return
+     * this func takes the list of commands and separates it into blocks which will be easier to use.
+     *
+     * @param commands        - the list of all the commands in the file
+     * @param data            - the string list we will set as our new commands, more organized
+     * @param commandsPointer - the pointer
+     * @return the pointer
      */
     private static int splitToBlocks(ArrayList<String> commands, String[] data, int commandsPointer) {
         int i = 0;
@@ -153,11 +128,14 @@ public class DirectoryProcessor {
     }
 
     /**
-     * @param commands
-     * @param data
-     * @param commandsPointer
-     * @param i
-     * @return
+     * this func makes sure we put the right order, the default order, if the next thing after the
+     * ORDER command is a FILTER command.
+     *
+     * @param commands        - the list of all the commands in the file
+     * @param data            - the string list we will set as our new commands, more organized
+     * @param commandsPointer - the pointer
+     * @param i               - another pointer
+     * @return true if we modified the ORDER command to be the default order command, false if not.
      */
     private static boolean isDefaultOrder(ArrayList<String> commands, String[] data, int commandsPointer, int i) {
         if (i == BLOCK_SIZE - 1) {
@@ -170,26 +148,23 @@ public class DirectoryProcessor {
     }
 
     /**
-     * @param blocks
-     * @param data
-     * @param idx
+     * this func checks to make sure we are able to add our new block to the list of blocks we have,
+     * and if we are able we add the new block to the list.
+     *
+     * @param blocks -  the list of blocks
+     * @param data   - the string list we will set as our new commands, more organized
+     * @param idx    - the pointer
      * @throws Exceptions.Type2Exception
      */
     private static void blocksCreator(ArrayList<Block> blocks, String[] data, int idx) throws Exceptions.Type2Exception {
         blocks.add(new Block(idx, data));
     }
-//        try {
-//            blocks.add(new Block(idx - BLOCK_SIZE + 1), data);
-//        } catch (NullPointerException e) {
-//            printException(BAD_FORMAT_ERROR);
-//        } catch (NoSuchFieldException e) {
-//            printException(BAD_SUBSECTION_ERROR);
-//        }
-//    }
 
     /**
-     * @param commands
-     * @return
+     * this is the func that builds the block list for our usage.
+     *
+     * @param commands - the list of all the commands in the file
+     * @return the list of blocks, after modification.
      * @throws Exceptions.Type2Exception
      */
     private static ArrayList<Block> blocksArray(ArrayList<String> commands) throws Exceptions.Type2Exception {
@@ -206,8 +181,9 @@ public class DirectoryProcessor {
         return blocks;
     }
 
-
     /**
+     * the main func that runs once you ask it to.
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -224,12 +200,6 @@ public class DirectoryProcessor {
             System.err.println(e.getMessage());
             return;
         }
-//        ArrayList<String> commands = commandsList(args[COMMAND_FILE]);
-//        ArrayList<Block> blocks = blocksArray(commands);
-//        ArrayList<File> files = directoryFileList(args[SOURCEDIR]);
-//        ArrayList<String> fixedFiles;
-//        for (Block block: blocks){
-//            block.doAction(files);
     }
 }
 

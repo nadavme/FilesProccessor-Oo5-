@@ -1,7 +1,7 @@
 package filesprocessing;
 
 /**
- *
+ * the exceptions class
  */
 public class Exceptions {
 
@@ -16,33 +16,28 @@ public class Exceptions {
     private static final String BAD_COMMANDS = "invalid command input! there should be ONLY two commands.";
     private final static String BAD_SOURCEDIR = "ERROR: No files in sourcedir";
 
+
+    /**
+     * pretty self explanatory, to each exception in our code we have a nested class
+     * is the exceptions class. in most of the nested classes you have a method that
+     * uses the exception class java has nad simply puts a new output for the func
+     * using super. this is simply a java class modified a bit for our needs.
+     */
     public static abstract class Type1Exception extends RuntimeException {
         public Type1Exception() {
             super();
         }
     }
 
-    /**
-     *
-     */
     protected static class InputValEx extends Type1Exception {
     }
 
-    /**
-     *
-     */
     protected static class RangeEx extends Type1Exception {
     }
 
-    /**
-     *
-     */
     protected static class ReverseEx extends Type1Exception {
     }
 
-    /**
-     *
-     */
     protected static class NegativeSuffixEx extends Type1Exception {
 
         public NegativeSuffixEx() {
@@ -50,25 +45,15 @@ public class Exceptions {
         }
     }
 
-    /**
-     *
-     */
     protected static class NoPermissionEx extends Type1Exception {
     }
 
-
-    /**
-     *
-     */
     public static abstract class Type2Exception extends Exception {
         protected Type2Exception(String err) {
             super(err);
         }
     }
 
-    /**
-     *
-     */
     protected static class inputEX extends Type2Exception {
 
         protected inputEX(String err) {
@@ -80,9 +65,6 @@ public class Exceptions {
         }
     }
 
-    /**
-     *
-     */
     protected static class SectionEx extends Type2Exception {
 
         protected SectionEx(String err) {
@@ -90,9 +72,6 @@ public class Exceptions {
         }
     }
 
-    /**
-     *
-     */
     protected static class SourcedirEx extends Type2Exception {
 
         protected SourcedirEx() {
@@ -100,36 +79,24 @@ public class Exceptions {
         }
     }
 
-    /**
-     *
-     */
     protected static class FileEx extends Type2Exception {
 
         protected FileEx() {
             super(BAD_COMMAND_FILE);
         }
-
     }
 
-    /**
-     *
-     */
     protected static class FilterEx extends Type2Exception {
         protected FilterEx(String err) {
             super(err);
         }
     }
 
-    /**
-     *
-     */
     protected static class OrderEx extends Type2Exception {
         protected OrderEx(String err) {
             super(err);
         }
     }
-
-
 }
 
 

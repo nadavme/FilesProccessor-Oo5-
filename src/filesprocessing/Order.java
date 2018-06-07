@@ -140,7 +140,6 @@ public class Order {
             if (reversed.equals(REVERSE)) {
                 Collections.reverse(files);
             }
-
         }
     }
 
@@ -197,6 +196,12 @@ public class Order {
             });
         }
 
+        /**
+         * the function that helps us get the file's suffix
+         *
+         * @param name - the full name of the file (prefix and suffix)
+         * @return a string representing the suffix
+         */
         private String fileSuffix(String name) {
             String[] splitted = name.split(TYPE_SEPARATOR);
             if (splitted.length == 0 || splitted.length == 1 || (splitted.length == 2 && splitted[0].equals(REGULAR))) {
@@ -205,5 +210,4 @@ public class Order {
             return splitted[splitted.length - 1];
         }
     }
-
 }

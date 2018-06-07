@@ -1,10 +1,13 @@
 package filesprocessing;
 
 /**
- *
+ * the command file class
  */
 public class CommandFile {
 
+    /**
+     * this are the permanent parameters for our class
+     */
     private static final String FILTER = "FILTER";
     private static final String ORDER = "ORDER";
     private static final String NEGATIVE = "NOT";
@@ -23,15 +26,16 @@ public class CommandFile {
      * *****************************Error messages***********************************************
      */
     private static final String WARNING = "Warning in line";
-    //    private static final String BAD_COMMAND_FILE_ERROR = "ERROR: The command file doesn't " +
-//            "exist or it's a directory";
     private static final String BAD_FORMAT_ERROR = "ERROR: Problem with format of Commands File";
     private static final String BAD_SUBSECTION_ERROR = "ERROR: Problem with subsection name";
-    //    private static final String BAD_INPUT_ERROR = "ERROR: Wrong usage.Should recive 2 arguments";
-//    private static final String BAD_COMMANDS = "invalid command input! there should be ONLY two commands.";
     private static final int ORDER_LENGTH = 2;
 
-
+    /**
+     * checks if the commands in the command file are valid and legal
+     *
+     * @param data - a list of strings representing the commands
+     * @throws Exceptions.Type2Exception
+     */
     static void isValid(String[] data) throws Exceptions.Type2Exception {
         for (int i = 0; i < data.length; i++) {
             if (data[i] == null) {
@@ -44,18 +48,13 @@ public class CommandFile {
             throw new Exceptions.OrderEx(BAD_SUBSECTION_ERROR);
         }
     }
-//    /**
-//     *
-//     * @param filterInput
-//     * @param filter
-//     * @return
-//     */
-
 
     /**
-     * @param lineNumber
-     * @param filter
-     * @param order
+     * this func throws and prints out the errors.
+     *
+     * @param lineNumber - the number of the line with the error
+     * @param filter     - the filter command we want to check
+     * @param order      - the order command we want to check
      */
     static void Errors(int lineNumber, String[] block, Filter.FilterQ filter, Order.OrderQ order) {
         if (filter == null && !block[1].equals(DEFAULT_FILTER)) {
@@ -67,9 +66,12 @@ public class CommandFile {
     }
 
     /**
-     * @param idx
-     * @param string
-     * @return
+     * this func takes the string representing the name of the command
+     * and separates it into a list.
+     *
+     * @param idx    - a pointer
+     * @param string - the name of the command (not sliced and with '#")
+     * @return - the element in the list using the pointer, or an empty string.
      */
     static String sliceString(int idx, String string) {
         String[] array = string.split(SEPARATOR);
@@ -79,24 +81,11 @@ public class CommandFile {
         return EMPTY;
     }
 
-
-//    /**
-//     *
-//     * @param string
-//     * @param array
-//     * @return
-//     */
-//   boolean containsTheString(String string, String[] array){
-//       for (String elem:array){
-//           if (string.equals(elem)){
-//               return true; }
-//       }
-//       return false;
-//   }
-
     /**
-     * @param orderType
-     * @return
+     * checks if the order is valid
+     *
+     * @param orderType - the type of the order given
+     * @return - empty string if the order is not valid, if it is valid we return the order type.
      */
     static String isOrderValid(String orderType) {
         String[] array = orderType.split(SEPARATOR);
@@ -107,8 +96,11 @@ public class CommandFile {
     }
 
     /**
-     * @param filterType
-     * @return
+     * checks if the filter is valid
+     *
+     * @param filterType - the type of the filter given
+     * @return - empty string if the filter is not valid, if it is valid we return the filter type,
+     * and if the filter is the filter "notBetween" return the given "notBetween" filter.
      */
     static String isFilterValid(String filterType) {
         String[] array = filterType.split(SEPARATOR);
@@ -122,5 +114,4 @@ public class CommandFile {
         }
         return EMPTY;
     }
-
 }
