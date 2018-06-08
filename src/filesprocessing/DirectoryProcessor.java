@@ -24,18 +24,6 @@ public class DirectoryProcessor {
 
 
     /**
-     * *****************************Error messages***********************************************
-     */
-    private static final String BAD_COMMAND_FILE_ERROR = "ERROR: The command file doesn't " +
-            "exist or it's a directory";
-    private static final String BAD_FORMAT_ERROR = "ERROR: Problem with format of Commands File";
-    private static final String BAD_SUBSECTION_ERROR = "ERROR: Problem with subsection name";
-    private static final String BAD_INPUT_ERROR = "ERROR: Wrong usage.Should recive 2 arguments";
-    private static final String BAD_COMMANDS = "invalid command input! there should be ONLY two commands.";
-    private final static String BAD_SOURCEDIR_ERROR = "ERROR: No files in sourcedir";
-
-
-    /**
      * this func simply prints the exception we encountered.
      *
      * @param exceptionText - what we want to print.
