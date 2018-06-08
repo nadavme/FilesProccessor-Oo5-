@@ -1,7 +1,9 @@
 package filesprocessing;
 
 /**
- * the exceptions class
+ * The exceptions class holds as inner 2 super exceptions class, that split the exceptions type to two main groups:
+ * type one, and type 2, corresponding to the pdf. each of them is inheriting from the Exception of java, according
+ * to their type- type one is "run time" exception, and type two is exception that will cause the program to return.
  */
 public class Exceptions {
 
@@ -10,10 +12,7 @@ public class Exceptions {
      */
     private static final String BAD_COMMAND_FILE = "ERROR: The command file doesn't " +
             "exist or it's a directory";
-    private static final String BAD_FORMAT_ERROR = "ERROR: Problem with format of Commands File";
-    private static final String BAD_SUBSECTION = "ERROR: Problem with subsection name";
     private static final String BAD_INPUT = "ERROR: Wrong usage.Should recive 2 arguments";
-    private static final String BAD_COMMANDS = "invalid command input! there should be ONLY two commands.";
     private final static String BAD_SOURCEDIR = "ERROR: No files in sourcedir";
 
 

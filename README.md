@@ -7,6 +7,12 @@ Nadav.meidan
 = File Description =
 ===================================
 filesprocessing.java
+Block.java
+CommandFile.java
+Filter.java
+Order.java
+OrderInterface.java
+Exceptions.java
 README
 
 ==================================
@@ -28,7 +34,11 @@ and both use the enum to get the right filtering or ordering method.
 in the command file, block and exceptions classes we simply build an interface that works with the given
 object or situation and then builds or prints the suitable thing.
 
-2. ???
+2. The exceptions class holds as inner 2 super exceptions class, that split the exceptions types to two main groups:
+     Type one, and Type 2, corresponding to the pdf. each of them is inheriting from the Exception of java, according
+     to their type- type one are "run time" exceptions(meaning, the program keeps running after the exception), and type
+
+     two are exceptions that will cause the program to return.
 
 3. we simply used an array list of files, and we used the sorting methods that java has
 for sorting an array.
